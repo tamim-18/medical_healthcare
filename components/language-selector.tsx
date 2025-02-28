@@ -18,11 +18,21 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+/**
+ * @typedef {Object} Language
+ * @property {string} value - The language code (e.g., 'en-US', 'es-ES')
+ * @property {string} label - The display name with flag emoji (e.g., '🇺🇸 English (US)')
+ */
 export type Language = {
   value: string;
   label: string;
 };
 
+/**
+ * Array of supported languages with their codes and display labels
+ * Each language includes a country flag emoji and localized name
+ * @type {Language[]}
+ */
 export const languages: Language[] = [
   { value: "en-US", label: "🇺🇸 English (US)" },
   { value: "es-ES", label: "🇪🇸 Spanish" },
@@ -37,17 +47,41 @@ export const languages: Language[] = [
   { value: "hi-IN", label: "🇮🇳 Hindi" },
 ];
 
+/**
+ * Props interface for the LanguageSelector component
+ * @interface LanguageSelectorProps
+ * @property {string} value - Currently selected language code
+ * @property {function} onChange - Callback function when language selection changes
+ * @property {string} label - Label text displayed above the selector
+ */
 interface LanguageSelectorProps {
   value: string;
   onChange: (value: string) => void;
   label: string;
 }
 
+/**
+ * LanguageSelector component that provides a searchable dropdown for language selection
+ * Features include:
+ * - Searchable language list with command palette interface
+ * - Visual feedback for selected language
+ * - Keyboard navigation support
+ * - Accessible ARIA attributes
+ * - Responsive design
+ *
+ * @component
+ * @param {LanguageSelectorProps} props - Component props
+ * @returns {JSX.Element} A language selection dropdown with search functionality
+ */
 export function LanguageSelector({
   value,
   onChange,
   label,
 }: LanguageSelectorProps) {
+  /**
+   * State to control the open/closed state of the language dropdown
+   * @type {boolean}
+   */
   const [open, setOpen] = useState(false);
 
   return (

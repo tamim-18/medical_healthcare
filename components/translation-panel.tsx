@@ -11,7 +11,28 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeftRight } from "lucide-react";
 import { motion } from "framer-motion";
 
+/**
+ * TranslationPanel component that provides real-time translation functionality
+ * Features include:
+ * - Real-time speech-to-text transcription
+ * - Language selection for source and target languages
+ * - Automatic translation with debouncing
+ * - Language swapping capability
+ * - Loading states and error handling
+ * - Responsive design with glass card effect
+ *
+ * @component
+ * @returns {JSX.Element} A panel containing translation controls and displays
+ */
 export function TranslationPanel() {
+  /**
+   * State management for the translation panel
+   * @type {string} sourceLanguage - The language code for the input text
+   * @type {string} targetLanguage - The language code for the translation
+   * @type {string} originalText - The text to be translated
+   * @type {string} translatedText - The translated text
+   * @type {boolean} isTranslating - Loading state during translation
+   */
   const [sourceLanguage, setSourceLanguage] = useState("en-US");
   const [targetLanguage, setTargetLanguage] = useState("es-ES");
   const [originalText, setOriginalText] = useState("");
@@ -19,6 +40,13 @@ export function TranslationPanel() {
   const [isTranslating, setIsTranslating] = useState(false);
   const { toast } = useToast();
 
+  /**
+   * Effect hook to handle translation
+   * Features:
+   * - Debounced translation requests (500ms)
+   * - Automatic translation on text or language changes
+   * - Error handling with toast notifications
+   */
   useEffect(() => {
     const translateText = async () => {
       if (!originalText) {
@@ -35,9 +63,9 @@ export function TranslationPanel() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            text: originalText, // originalText is the text to be translated
-            sourceLanguage, // sourceLanguage is the language of the text to be translated
-            targetLanguage, // targetLanguage is the language to translate the text to
+            text: originalText,
+            sourceLanguage,
+            targetLanguage,
           }),
         });
 
@@ -67,7 +95,10 @@ export function TranslationPanel() {
     return () => clearTimeout(timeoutId);
   }, [originalText, sourceLanguage, targetLanguage, toast]);
 
-  // Swap languages
+  /**
+   * Swaps the source and target languages
+   * Also swaps the original and translated text
+   */
   const swapLanguages = () => {
     setSourceLanguage(targetLanguage);
     setTargetLanguage(sourceLanguage);

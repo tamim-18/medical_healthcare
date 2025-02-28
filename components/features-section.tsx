@@ -10,7 +10,18 @@ import {
   FileText,
 } from "lucide-react";
 
-// Define the features array
+/**
+ * @typedef {Object} Feature
+ * @property {JSX.Element} icon - The Lucide icon component to display
+ * @property {string} title - The title of the feature
+ * @property {string} description - A detailed description of the feature
+ */
+
+/**
+ * Array of features showcasing the main capabilities of the translation app
+ * Each feature includes an icon, title, and description
+ * @type {Feature[]}
+ */
 const features = [
   {
     icon: <Mic className="h-10 w-10" />,
@@ -50,6 +61,17 @@ const features = [
   },
 ];
 
+/**
+ * FeaturesSection component that displays a grid of key application features
+ * Features include:
+ * - Animated section title and description
+ * - Responsive grid layout (1 column on mobile, 2 on tablet, 3 on desktop)
+ * - Individual feature cards with hover animations
+ * - Glass card design with icons
+ *
+ * @component
+ * @returns {JSX.Element} A section showcasing the application's key features
+ */
 export function FeaturesSection() {
   return (
     <section id="features" className="py-16 md:py-24 bg-background">

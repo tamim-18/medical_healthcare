@@ -7,11 +7,23 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
+/**
+ * Props interface for the SpeechRecognition component
+ * @interface SpeechRecognitionProps
+ * @property {string} language - The language code for speech recognition (e.g., 'en-US')
+ * @property {function} onTranscriptChange - Callback function that receives the transcript text
+ */
 interface SpeechRecognitionProps {
   language: string;
   onTranscriptChange: (transcript: string) => void;
 }
 
+/**
+ * A React component that provides speech-to-text functionality using the Web Speech API
+ * @component
+ * @param {SpeechRecognitionProps} props - Component props
+ * @returns {JSX.Element} Speech recognition interface with microphone controls
+ */
 export function SpeechRecognition({
   language,
   onTranscriptChange,
@@ -92,6 +104,10 @@ export function SpeechRecognition({
     }
   }, [language]);
 
+  /**
+   * Toggles the speech recognition on/off state
+   * Starts or stops the speech recognition service
+   */
   const toggleListening = () => {
     if (isListening) {
       recognitionRef.current.stop();
@@ -111,6 +127,10 @@ export function SpeechRecognition({
     }
   };
 
+  /**
+   * Resets the current transcript to an empty string
+   * and notifies the parent component via onTranscriptChange
+   */
   const resetTranscript = () => {
     setTranscript("");
     onTranscriptChange("");

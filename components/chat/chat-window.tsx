@@ -9,6 +9,14 @@ import { ScrollArea } from "../ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
 
+/**
+ * Interface defining the structure of a chat message
+ * @interface Message
+ * @property {string} id - Unique identifier for the message
+ * @property {string} content - The message text content
+ * @property {boolean} isUser - Whether the message is from the user (true) or AI (false)
+ * @property {Date} timestamp - When the message was sent
+ */
 interface Message {
   id: string;
   content: string;
@@ -16,6 +24,10 @@ interface Message {
   timestamp: Date;
 }
 
+/**
+ * Initial welcome message displayed when the chat window opens
+ * @constant {string}
+ */
 const WELCOME_MESSAGE = `Hello! 👋 I'm your medical and health assistant. I can help you with:
 - General health questions
 - Diet and nutrition advice
@@ -25,7 +37,38 @@ const WELCOME_MESSAGE = `Hello! 👋 I'm your medical and health assistant. I ca
 
 How can I assist you today?`;
 
-export function ChatWindow({ isOpen }: { isOpen: boolean }) {
+/**
+ * Props interface for the ChatWindow component
+ * @interface ChatWindowProps
+ * @property {boolean} isOpen - Whether the chat window should be displayed
+ */
+interface ChatWindowProps {
+  isOpen: boolean;
+}
+
+/**
+ * ChatWindow component that provides the main chat interface
+ * Features include:
+ * - Real-time message display
+ * - Message history with timestamps
+ * - Markdown rendering for formatted responses
+ * - Auto-scrolling to latest messages
+ * - Loading states and error handling
+ * - Chat history reset functionality
+ * - Responsive design with glass card effect
+ *
+ * @component
+ * @param {ChatWindowProps} props - Component props
+ * @returns {JSX.Element} A chat interface window with message history and input
+ */
+export function ChatWindow({ isOpen }: ChatWindowProps) {
+  /**
+   * State management for the chat window
+   * @type {Message[]} messages - Array of chat messages
+   * @type {string} inputMessage - Current input field value
+   * @type {boolean} isLoading - Loading state during message processing
+   * @type {boolean} isRefreshing - Loading state during chat reset
+   */
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -37,17 +80,31 @@ export function ChatWindow({ isOpen }: { isOpen: boolean }) {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  /**
+   * Reference to the messages end div for auto-scrolling
+   */
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
+  /**
+   * Scrolls the chat window to the latest message
+   */
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  /**
+   * Effect hook to handle auto-scrolling when new messages arrive
+   */
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
+  /**
+   * Handles sending a new message and getting AI response
+   * Includes error handling and loading states
+   */
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
 
@@ -101,9 +158,12 @@ export function ChatWindow({ isOpen }: { isOpen: boolean }) {
     }
   };
 
+  /**
+   * Resets the chat history to initial state
+   * Shows a confirmation toast when complete
+   */
   const handleRefresh = () => {
     setIsRefreshing(true);
-    // Reset to initial state with welcome message
     setMessages([
       {
         id: "welcome",
@@ -113,13 +173,12 @@ export function ChatWindow({ isOpen }: { isOpen: boolean }) {
       },
     ]);
 
-    // Show toast notification
     toast({
       title: "Chat Refreshed",
       description: "Chat history has been cleared.",
     });
 
-    setTimeout(() => setIsRefreshing(false), 500); // Add a small delay for animation
+    setTimeout(() => setIsRefreshing(false), 500);
   };
 
   return (

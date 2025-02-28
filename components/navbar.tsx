@@ -7,10 +7,34 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Heart, Menu, X } from "lucide-react";
 
+/**
+ * Navbar component that provides navigation functionality and responsive design
+ * Features include:
+ * - Responsive desktop and mobile navigation
+ * - Scroll-based background transparency
+ * - Animated transitions using Framer Motion
+ * - Theme toggle functionality
+ * - Mobile menu with hamburger toggle
+ *
+ * @component
+ * @returns {JSX.Element} A responsive navigation bar
+ */
 export function Navbar() {
+  /**
+   * State to track if the page has been scrolled past threshold
+   * Used to add background blur and shadow to navbar
+   */
   const [isScrolled, setIsScrolled] = useState(false);
+
+  /**
+   * State to control mobile menu visibility
+   */
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  /**
+   * Effect hook to handle scroll events
+   * Adds background effects to navbar when scrolled past 10px
+   */
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);

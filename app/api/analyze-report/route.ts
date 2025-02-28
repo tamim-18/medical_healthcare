@@ -1,10 +1,28 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
+/**
+ * API key for Google's Generative AI service
+ * @constant {string}
+ */
 const apiKey = process.env.GEMINI_API_KEY;
+
+/**
+ * Instance of Google's Generative AI client
+ * @constant {GoogleGenerativeAI}
+ */
 const genAI = new GoogleGenerativeAI(apiKey as string);
 
-// model configuration
+/**
+ * Model configuration for Gemini AI
+ * @constant {Object}
+ * @property {string} model - The model identifier
+ * @property {Object} generationConfig - Configuration for text generation
+ * @property {number} generationConfig.temperature - Controls randomness (0.0-1.0)
+ * @property {number} generationConfig.topP - Nucleus sampling parameter
+ * @property {number} generationConfig.topK - Top-k sampling parameter
+ * @property {number} generationConfig.maxOutputTokens - Maximum response length
+ */
 const model = genAI.getGenerativeModel({
   model: "gemini-2.0-flash",
   generationConfig: {
@@ -15,6 +33,21 @@ const model = genAI.getGenerativeModel({
   },
 });
 
+/**
+ * POST route handler for medical report analysis
+ * Features include:
+ * - Support for both text and image reports
+ * - File type detection and appropriate processing
+ * - Base64 encoding for image data
+ * - Error handling with appropriate status codes
+ * - Structured response format
+ *
+ * @async
+ * @function POST
+ * @param {Request} req - The incoming request object containing the file
+ * @returns {Promise<NextResponse>} JSON response with analysis or error message
+ * @throws {Error} When file processing or analysis fails
+ */
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();

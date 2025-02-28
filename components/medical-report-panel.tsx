@@ -8,7 +8,28 @@ import { Loader2, Upload, RefreshCw, X } from "lucide-react";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 
+/**
+ * MedicalReportPanel component that handles medical report input and analysis
+ * Features include:
+ * - File upload for images and PDFs
+ * - Text input for medical reports
+ * - Report analysis functionality
+ * - Markdown rendering of analysis results
+ * - Error handling and loading states
+ *
+ * @component
+ * @returns {JSX.Element} A two-panel interface for medical report input and analysis
+ */
 export function MedicalReportPanel() {
+  /**
+   * State management for the component
+   * @type {string} medicalReport - The text content of the medical report
+   * @type {string} analysis - The analysis results in markdown format
+   * @type {boolean} isAnalyzing - Loading state during analysis
+   * @type {string | null} selectedImage - URL of the uploaded image
+   * @type {File | null} selectedFile - The uploaded file object
+   * @type {string} error - Error message if analysis fails
+   */
   const [medicalReport, setMedicalReport] = useState("");
   const [analysis, setAnalysis] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -16,6 +37,11 @@ export function MedicalReportPanel() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string>("");
 
+  /**
+   * Handles image file upload
+   * Creates object URL for preview and stores file for submission
+   * @param {React.ChangeEvent<HTMLInputElement>} event - The file input change event
+   */
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -27,6 +53,11 @@ export function MedicalReportPanel() {
     }
   };
 
+  /**
+   * Initiates the analysis of the medical report
+   * Handles both text and file submissions
+   * @async
+   */
   const handleAnalyze = async () => {
     if (!medicalReport.trim() && !selectedFile) return;
 
@@ -63,6 +94,10 @@ export function MedicalReportPanel() {
     }
   };
 
+  /**
+   * Resets all state variables to their initial values
+   * Clears the form and analysis results
+   */
   const handleClear = () => {
     setMedicalReport("");
     setAnalysis("");
@@ -71,6 +106,10 @@ export function MedicalReportPanel() {
     setError("");
   };
 
+  /**
+   * Removes the uploaded image and associated file
+   * Maintains any text input
+   */
   const handleRemoveImage = () => {
     setSelectedImage(null);
     setSelectedFile(null);

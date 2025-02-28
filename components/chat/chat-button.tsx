@@ -4,11 +4,24 @@ import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 
+/**
+ * Props interface for the ChatButton component
+ * @interface ChatButtonProps
+ * @property {boolean} isOpen - Whether the chat interface is currently open
+ * @property {function} onClick - Callback function to handle button clicks
+ */
 interface ChatButtonProps {
   isOpen: boolean;
   onClick: () => void;
 }
 
+/**
+ * Custom SVG chat icon component
+ * Features a circular message bubble with lines representing text
+ *
+ * @component
+ * @returns {JSX.Element} An SVG icon for the chat button
+ */
 const ChatIcon = () => (
   <svg
     viewBox="0 0 24 24"
@@ -40,6 +53,20 @@ const ChatIcon = () => (
   </svg>
 );
 
+/**
+ * ChatButton component that provides a floating action button for chat functionality
+ * Features include:
+ * - Animated entrance effect
+ * - Smooth icon transition between chat and close states
+ * - Dynamic color changes based on state
+ * - Hover and active animations
+ * - Accessibility support with ARIA labels
+ * - Responsive positioning
+ *
+ * @component
+ * @param {ChatButtonProps} props - Component props
+ * @returns {JSX.Element} A floating action button for chat interactions
+ */
 export function ChatButton({ isOpen, onClick }: ChatButtonProps) {
   return (
     <motion.div
