@@ -36,6 +36,7 @@ export function SpeechRecognition({
     }
 
     const SpeechRecognition =
+      // @ts-ignore
       window.SpeechRecognition || window.webkitSpeechRecognition;
     recognitionRef.current = new SpeechRecognition();
     recognitionRef.current.continuous = true;
