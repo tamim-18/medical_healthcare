@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
-
+import { Analytics } from "@vercel/analytics/next";
 /**
  * Configuration for the Outfit font
  * Includes Latin subset support and CSS variable definition
@@ -70,6 +70,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           >
             <Navbar />
             {children}
+            <Analytics />
             <Toaster />
           </ThemeProvider>
         </body>
